@@ -135,7 +135,6 @@ void wypiszWszystkichAdresatow(vector<Adresat> &adresaci) {
     if (!adresaci.empty()) {
         for (vector<Adresat>::iterator itr = adresaci.begin(); itr != adresaci.end(); itr++) {
             cout << "Id:                 " << itr->idAdresat << endl;
-            //cout << "idUzytkownik:      " << itr->idUzytkownik << endl;
             cout << "Imie:               " << itr->imie << endl;
             cout << "Nazwisko:           " << itr->nazwisko << endl;
             cout << "Numer telefonu:     " << itr->numerTelefonu << endl;
@@ -189,7 +188,6 @@ void wyszukajAdresatowPoImieniu(vector<Adresat> &adresaci) {
             if (itr->imie == imiePoszukiwanegoAdresata) {
                 cout << endl;
                 cout << "Id:                 " << itr->idAdresat << endl;
-                //cout << "idUzytkownik:      " << itr->idUzytkownik << endl;
                 cout << "Imie:               " << itr->imie << endl;
                 cout << "Nazwisko:           " << itr->nazwisko << endl;
                 cout << "Numer telefonu:     " << itr->numerTelefonu << endl;
@@ -227,7 +225,6 @@ void wyszukajAdresatowPoNazwisku(vector<Adresat> &adresaci) {
             if (itr->nazwisko == nazwiskoPoszukiwanegoAdresata) {
                 cout << endl;
                 cout << "Id:                 " << itr->idAdresat << endl;
-                //cout << "idUzytkownik:      " << itr->idUzytkownik << endl;
                 cout << "Imie:               " << itr->imie << endl;
                 cout << "Nazwisko:           " << itr->nazwisko << endl;
                 cout << "Numer telefonu:     " << itr->numerTelefonu << endl;
@@ -401,10 +398,8 @@ void dodajUzytkownika(vector<Uzytkownik> &uzytkownicy) {
     } else {
         uzytkownik.idUser = uzytkownicy.back().idUser + 1;
     }
-    //cin.sync();
     cout << "Podaj Login: ";
     uzytkownik.login = wczytajLinie();
-   // cin.sync();
     cout << "Podaj Haslo: ";
     uzytkownik.haslo  = wczytajLinie();
     for (vector<Uzytkownik>::iterator itr = uzytkownicy.begin(); itr != uzytkownicy.end(); itr++) {
@@ -424,10 +419,8 @@ int logowanie (vector <Uzytkownik> &uzytkownicy) {
     int  idUsera = 0;
     string sprawdzLogin, sprawdzHaslo;
     bool czyIstniejeUzytkownik = false;
-   // cin.sync();/////////////////
     cout << "Wprowadz swoj login: "<<endl;
     sprawdzLogin = wczytajLinie();
-    //cin.sync();////////////////////////////
     cout <<"Wpisz swoje haslo: "<<endl;
     sprawdzHaslo = wczytajLinie();
     for (vector<Uzytkownik>::iterator itr = uzytkownicy.begin(); itr != uzytkownicy.end(); itr++) {
@@ -445,34 +438,6 @@ int logowanie (vector <Uzytkownik> &uzytkownicy) {
     return idUsera;
 
 }
-void wypiszWszystkichUzytkownikow(vector<Uzytkownik> &uzytkownicy) {  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< skasowac na koniec
-    system("cls");
-     string daneJednegoUzytkownikaOddzielonePionowymiKreskami = "";
-
-    fstream plikTekstowy;
-    plikTekstowy.open(nazwaPlikuUzytkownikow.c_str(), ios::in);
-
-    if (plikTekstowy.good() == true) {
-        while (getline(plikTekstowy, daneJednegoUzytkownikaOddzielonePionowymiKreskami))
-                cout <<daneJednegoUzytkownikaOddzielonePionowymiKreskami<<endl;
-    }
-    if (!uzytkownicy.empty()) {
-        for (vector<Uzytkownik>::iterator itr = uzytkownicy.begin(); itr != uzytkownicy.end(); itr++) {
-            cout << "Id:                 " << itr->idUser << endl;
-            cout << "login:               " << itr->login << endl;
-            cout << "haslo:           " << itr->haslo << endl << endl;
-        }
-        cout << endl;
-    } else {
-        cout << "Ksiazka adresowa jest pusta." << endl << endl;
-    }
-
-    system("pause");
-}                                                               //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< skasowac na koniec
-
-
-
-
 
 void usuwanieAdresata (vector<Adresat> &adresaci)
 {
@@ -681,7 +646,6 @@ int main() {
     char wybor;
     int idUzytkownika =0;
     wczytajUzytkownikowZPliku(uzytkownicy);
-    wypiszWszystkichUzytkownikow(uzytkownicy);
     while (true) {
         system("cls");
         cout << "1. Logowanie" << endl;
