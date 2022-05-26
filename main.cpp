@@ -622,7 +622,7 @@ void zmianaHasla(vector <Uzytkownik> &uzytkownicy,int idZalogowanegoUzytkownika)
         if (wyjscie.good()) {
             {
                 for(int i =0; i < uzytkownicy.size(); i++) {
-                    wyjscie << uzytkownicy[i].idUser<<"|"<<uzytkownicy[i].login<<"|"<<uzytkownicy[i].haslo<<endl;
+                    wyjscie << uzytkownicy[i].idUser<<"|"<<uzytkownicy[i].login<<"|"<<uzytkownicy[i].haslo<<"|"<<endl;
                 }
             }
             wyjscie.close();
