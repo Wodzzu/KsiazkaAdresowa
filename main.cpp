@@ -7,9 +7,6 @@
 
 using namespace std;
 
-string nazwaPlikuAdresatow = "KsiazkaAdresowa.txt";
-string nazwaPlikuUzytkownikow = "Uzytkownicy.txt";
-string nazwaPlikuTymczasowego = "Ksiazka Tymczasowa.txt";
 
 struct Uzytkownik {
     int idUser = 0;
@@ -113,14 +110,14 @@ Adresat pobierzDaneAdresata(string daneAdresataOddzielonePionowymiKreskami) {
     return adresat;
 }
 
-void wczytajAdresatowZPliku(vector<Adresat> &adresaci,int idUzytkownika) {
+void wczytajAdresatowZPliku(vector<Adresat> &adresaci,int idUzytkownika, string nazwaPlikuAdresatow) {
     Adresat adresat;
     string daneJednegoAdresataOddzielonePionowymiKreskami = "";
 
     fstream plikTekstowy;
     plikTekstowy.open(nazwaPlikuAdresatow.c_str(), ios::in);
 
-    if (plikTekstowy.good() == true) {
+    if (plikTekstowy.good()) {
         while (getline(plikTekstowy, daneJednegoAdresataOddzielonePionowymiKreskami)) {
             adresat = pobierzDaneAdresata(daneJednegoAdresataOddzielonePionowymiKreskami);
             if(idUzytkownika==adresat.idUzytkownik)
@@ -149,11 +146,11 @@ void wypiszWszystkichAdresatow(vector<Adresat> &adresaci) {
     system("pause");
 }
 
-void dopiszAdresataDoPliku(Adresat adresat) {
+void dopiszAdresataDoPliku(Adresat adresat, string nazwaPlikuAdresatow) {
     fstream plikTekstowy;
     plikTekstowy.open(nazwaPlikuAdresatow.c_str(), ios::out | ios::app);
 
-    if (plikTekstowy.good() == true) {
+    if (plikTekstowy.good()) {
         plikTekstowy << adresat.idAdresat << '|';
         plikTekstowy << adresat.idUzytkownik << '|';
         plikTekstowy << adresat.imie << '|';
@@ -262,7 +259,7 @@ int pobierzIdAdresataZPliku(string linijkaZDanymiAdresata) {
     return idPobraneZPliku;
 }
 
-void dodajAdresata(vector<Adresat> &adresaci, int idZalogowanegoUzytkownika) {
+void dodajAdresata(vector<Adresat> &adresaci, int idZalogowanegoUzytkownika,string nazwaPlikuAdresatow) {
     Adresat adresat;
     string daneAdresataZPliku="";
     int najwiekszeIdAdresataZPliku=0, idAdresataZPliku = 0;
@@ -271,7 +268,7 @@ void dodajAdresata(vector<Adresat> &adresaci, int idZalogowanegoUzytkownika) {
 
     fstream plikTekstowy ;
     plikTekstowy.open(nazwaPlikuAdresatow.c_str());
-    if (plikTekstowy.good() == false) {
+    if (!plikTekstowy.good()) {
         adresat.idAdresat = 1;
     }
      else {
@@ -305,7 +302,7 @@ void dodajAdresata(vector<Adresat> &adresaci, int idZalogowanegoUzytkownika) {
 
     adresaci.push_back(adresat);
 
-    dopiszAdresataDoPliku(adresat);
+    dopiszAdresataDoPliku(adresat,nazwaPlikuAdresatow);
 }
 
 void zakonczProgram() {
@@ -352,14 +349,14 @@ Uzytkownik pobierzDaneUzytkownika(string daneUzytkownikaOddzielonePionowymiKresk
     return uzytkownik;
 }
 
-void wczytajUzytkownikowZPliku(vector<Uzytkownik> &uzytkownicy) {
+void wczytajUzytkownikowZPliku(vector<Uzytkownik> &uzytkownicy,string nazwaPlikuUzytkownikow) {
     Uzytkownik uzytkownik;
     string daneJednegoUzytkownikaOddzielonePionowymiKreskami = "";
 
     fstream plikTekstowy;
     plikTekstowy.open(nazwaPlikuUzytkownikow.c_str(), ios::in);
 
-    if (plikTekstowy.good() == true) {
+    if (plikTekstowy.good()) {
         while (getline(plikTekstowy, daneJednegoUzytkownikaOddzielonePionowymiKreskami)) {
             uzytkownik = pobierzDaneUzytkownika(daneJednegoUzytkownikaOddzielonePionowymiKreskami);
 
@@ -369,11 +366,11 @@ void wczytajUzytkownikowZPliku(vector<Uzytkownik> &uzytkownicy) {
     }
 }
 
-void dopiszUzytkownikaDoPliku(Uzytkownik uzytkownik) {
+void dopiszUzytkownikaDoPliku(Uzytkownik uzytkownik, string nazwaPlikuUzytkownikow) {
     fstream plikTekstowy;
     plikTekstowy.open(nazwaPlikuUzytkownikow.c_str(), ios::out | ios::app);
 
-    if (plikTekstowy.good() == true) {
+    if (plikTekstowy.good()) {
         plikTekstowy << uzytkownik.idUser << '|';
         plikTekstowy << uzytkownik.login << '|';
         plikTekstowy << uzytkownik.haslo << '|'<<endl;
@@ -386,14 +383,14 @@ void dopiszUzytkownikaDoPliku(Uzytkownik uzytkownik) {
         system("pause");
     }
 }
-void dodajUzytkownika(vector<Uzytkownik> &uzytkownicy) {
+void dodajUzytkownika(vector<Uzytkownik> &uzytkownicy, string nazwaPlikuUzytkownikow) {
     Uzytkownik uzytkownik;
     bool czyIstniejeUzytkownik = false;
 
     system("cls");
     cout << ">>> DODAWANIE NOWEGO UZYTKOWNIKA <<<" << endl << endl;
 
-    if (uzytkownicy.empty() == true) {
+    if (uzytkownicy.empty()) {
         uzytkownik.idUser = 1;
     } else {
         uzytkownik.idUser = uzytkownicy.back().idUser + 1;
@@ -411,7 +408,7 @@ void dodajUzytkownika(vector<Uzytkownik> &uzytkownicy) {
     }
     if(czyIstniejeUzytkownik==false) {
         uzytkownicy.push_back(uzytkownik);
-        dopiszUzytkownikaDoPliku(uzytkownik);
+        dopiszUzytkownikaDoPliku(uzytkownik,nazwaPlikuUzytkownikow);
     }
 }
 
@@ -439,7 +436,7 @@ int logowanie (vector <Uzytkownik> &uzytkownicy) {
 
 }
 
-void usuwanieAdresata (vector<Adresat> &adresaci)
+void usuwanieAdresata (vector<Adresat> &adresaci, string nazwaPlikuAdresatow,  string nazwaPlikuTymczasowego)
 {
     int idUsuwanegoAdresata = 0;
     char znak;
@@ -492,7 +489,7 @@ void usuwanieAdresata (vector<Adresat> &adresaci)
 
     system("pause");
 }
-void zapiszEdytowanegoAdresata(vector<Adresat> &adresaci, int idEdytowanegoAdresata)
+void zapiszEdytowanegoAdresata(vector<Adresat> &adresaci, int idEdytowanegoAdresata, string nazwaPlikuAdresatow, string nazwaPlikuTymczasowego)
 {
     string daneAdresataZPliku="",liniaZDanymiAdresata="" ;
      fstream pobierz;
@@ -530,7 +527,7 @@ void zapiszEdytowanegoAdresata(vector<Adresat> &adresaci, int idEdytowanegoAdres
                     }
 
 
-void edytujAdresata(vector<Adresat> &adresaci) {
+void edytujAdresata(vector<Adresat> &adresaci,string nazwaPlikuAdresatow, string nazwaPlikuTymczasowego) {
     int idWybranegoAdresata = 0;
     char wybor;
     bool czyIstniejeAdresat = false;
@@ -561,32 +558,32 @@ void edytujAdresata(vector<Adresat> &adresaci) {
                     itr->imie = wczytajLinie();
                     itr->imie = zamienPierwszaLitereNaDuzaAPozostaleNaMale(itr->imie);
                     cout << endl << "Imie zostalo zmienione" << endl << endl;
-                    zapiszEdytowanegoAdresata(adresaci,idWybranegoAdresata);
+                    zapiszEdytowanegoAdresata(adresaci,idWybranegoAdresata,nazwaPlikuAdresatow,nazwaPlikuTymczasowego);
                     break;
                 case '2':
                     cout << "Podaj nowe nazwisko: ";
                     itr->nazwisko = wczytajLinie();
                     itr->nazwisko = zamienPierwszaLitereNaDuzaAPozostaleNaMale(itr->nazwisko);
                     cout << endl << "Nazwisko zostalo zmienione" << endl << endl;
-            zapiszEdytowanegoAdresata(adresaci,idWybranegoAdresata);
+            zapiszEdytowanegoAdresata(adresaci,idWybranegoAdresata,nazwaPlikuAdresatow,nazwaPlikuTymczasowego);
                     break;
                 case '3':
                     cout << "Podaj nowy numer telefonu: ";
                     itr->numerTelefonu = wczytajLinie();
                     cout << endl << "Numer telefonu zostal zmieniony" << endl << endl;
-                    zapiszEdytowanegoAdresata(adresaci,idWybranegoAdresata);
+                    zapiszEdytowanegoAdresata(adresaci,idWybranegoAdresata,nazwaPlikuAdresatow,nazwaPlikuTymczasowego);
                     break;
                 case '4':
                     cout << "Podaj nowy email: ";
                     itr->email = wczytajLinie();
                     cout << endl << "Email zostal zmieniony" << endl << endl;
-                  zapiszEdytowanegoAdresata(adresaci,idWybranegoAdresata);
+                  zapiszEdytowanegoAdresata(adresaci,idWybranegoAdresata,nazwaPlikuAdresatow,nazwaPlikuTymczasowego);
                     break;
                 case '5':
                     cout << "Podaj nowy adres zamieszkania: ";
                     itr->adres = wczytajLinie();
                     cout << endl << "Adres zostal zmieniony" << endl << endl;
-                    zapiszEdytowanegoAdresata(adresaci,idWybranegoAdresata);
+                    zapiszEdytowanegoAdresata(adresaci,idWybranegoAdresata,nazwaPlikuAdresatow,nazwaPlikuTymczasowego);
                     break;
                 case '6':
                     cout << endl << "Powrot do menu glownego" << endl << endl;
@@ -606,7 +603,7 @@ void edytujAdresata(vector<Adresat> &adresaci) {
     system("pause");
 }
 
-void zmianaHasla(vector <Uzytkownik> &uzytkownicy,int idZalogowanegoUzytkownika) {
+void zmianaHasla(vector <Uzytkownik> &uzytkownicy,int idZalogowanegoUzytkownika, string nazwaPlikuUzytkownikow, string nazwaPlikuTymczasowego) {
     string stareHaslo,noweHaslo;
     bool poprawneHaslo = false;
     cout <<"Podaj swoje stare haslo: "<<endl;
@@ -641,11 +638,14 @@ if(poprawneHaslo==false){
 }
 
 int main() {
+    string nazwaPlikuAdresatow = "KsiazkaAdresowa.txt";
+    string nazwaPlikuUzytkownikow = "Uzytkownicy.txt";
+    string nazwaPlikuTymczasowego = "Ksiazka Tymczasowa.txt";
     vector<Adresat> adresaci;
     vector<Uzytkownik> uzytkownicy;
     char wybor;
     int idUzytkownika =0;
-    wczytajUzytkownikowZPliku(uzytkownicy);
+    wczytajUzytkownikowZPliku(uzytkownicy,nazwaPlikuUzytkownikow);
     while (true) {
         system("cls");
         cout << "1. Logowanie" << endl;
@@ -656,10 +656,10 @@ int main() {
         switch(wybor) {
         case '1':
             idUzytkownika = logowanie(uzytkownicy);
-            wczytajAdresatowZPliku(adresaci,idUzytkownika);
+            wczytajAdresatowZPliku(adresaci,idUzytkownika,nazwaPlikuAdresatow);
             break;
         case '2':
-            dodajUzytkownika(uzytkownicy);
+            dodajUzytkownika(uzytkownicy,nazwaPlikuUzytkownikow);
             break;
         case '9':
             zakonczProgram();
@@ -681,7 +681,7 @@ int main() {
 
             switch(wybor) {
             case '1':
-                dodajAdresata(adresaci,idUzytkownika);
+                dodajAdresata(adresaci,idUzytkownika,nazwaPlikuAdresatow);
                 break;
             case '2':
                 wyszukajAdresatowPoImieniu(adresaci);
@@ -693,13 +693,13 @@ int main() {
                 wypiszWszystkichAdresatow(adresaci);
                 break;
             case '5':
-                usuwanieAdresata(adresaci);
+                usuwanieAdresata(adresaci,nazwaPlikuAdresatow,nazwaPlikuTymczasowego);
                 break;
             case '6':
-                edytujAdresata(adresaci);
+                edytujAdresata(adresaci,nazwaPlikuAdresatow,nazwaPlikuTymczasowego);
                 break;
                 case '7':
-            zmianaHasla(uzytkownicy,idUzytkownika);
+            zmianaHasla(uzytkownicy,idUzytkownika,nazwaPlikuUzytkownikow,nazwaPlikuTymczasowego);
                 break;
             case '9':
                 idUzytkownika=wylogujSie(adresaci);
